@@ -1,0 +1,18 @@
+#!/usr/bin/expect -f
+set timeout 280
+
+
+set password [lindex $argv 0]
+
+
+spawn docker run -v /data/openvpn:/etc/openvpn --rm -it registry.cn-hangzhou.aliyuncs.com/yangb/openvpn ovpn_initpki
+
+expect {  
+	"*removal:" {send "yes\r";exp_continue} 
+	"*Passphrase:" {send "$password\r";exp_continue} 	
+    "*CA]:" {send "\r";exp_continue}
+    "*ca.key:" {send "$password\r";exp_continue}
+	}  
+   
+
+

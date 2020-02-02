@@ -1,0 +1,19 @@
+#!/usr/bin/expect -f
+
+set Persons [lindex $argv 0]
+set password [lindex $argv 1]
+
+spawn docker run -v /data/openvpn:/etc/openvpn --rm -it registry.cn-hangzhou.aliyuncs.com/yangb/openvpn easyrsa revoke $Persons
+
+expect {  
+	"*revocation:" {send "yes\r";exp_continue}
+        "*ca.key:" {send "$password\r";exp_continue}
+	}
+
+spawn docker run -v /data/openvpn:/etc/openvpn --rm -it registry.cn-hangzhou.aliyuncs.com/yangb/openvpn easyrsa gen-crl $Persons
+
+expect {  
+    "*ca.key:" {send "$password\r";exp_continue}
+	}
+
+

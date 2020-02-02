@@ -1,0 +1,13 @@
+#!/usr/bin/expect -f
+
+set Persons [lindex $argv 0]
+set password [lindex $argv 1]
+
+spawn docker run -v /data/openvpn:/etc/openvpn --rm -it registry.cn-hangzhou.aliyuncs.com/yangb/openvpn easyrsa build-client-full $Persons nopass
+
+expect {  
+	"*ca.key:" {send "$password\r";exp_continue}  
+	}  
+   
+
+
