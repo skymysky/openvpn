@@ -62,7 +62,7 @@ cp /data/openvpn/conf/$Persons.ovpn /data/openvpnConfig/
 
 sed -i "7c remote $ipaddr $openvpnPort $sla" /data/openvpnConfig/$Persons.ovpn
 
-#sz /data/openvpn/conf/$Persons.ovpn.bak
+sz /data/openvpn/conf/$Persons.ovpn.bak
 #rm -rf /data/openvpn/conf/$Persons.ovpn.bak
 echo "$Persons 配置完成！"
 else
